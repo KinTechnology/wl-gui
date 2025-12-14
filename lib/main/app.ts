@@ -1,14 +1,8 @@
 import { BrowserWindow, shell, app } from 'electron'
 import { join } from 'path'
 import appIcon from '@/resources/build/icon.png?asset'
-import { registerResourcesProtocol } from './protocols'
-import { registerWindowHandlers } from '@/lib/conveyor/handlers/window-handler'
-import { registerAppHandlers } from '@/lib/conveyor/handlers/app-handler'
 
 export function createAppWindow(): void {
-  // Register custom protocol for resources
-  registerResourcesProtocol()
-
   // Create the main window.
   const mainWindow = new BrowserWindow({
     width: 900,
@@ -26,10 +20,6 @@ export function createAppWindow(): void {
       sandbox: false,
     },
   })
-
-  // Register IPC events for the main window.
-  registerWindowHandlers(mainWindow)
-  registerAppHandlers(app)
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
