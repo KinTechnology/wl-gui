@@ -1,21 +1,71 @@
-MIT License
+KIN TECHNOLOGY PROPRIETARY SOFTWARE LICENSE AGREEMENT
 
-Copyright (c) 2022 Guasam
+Copyright © 2025 Kin Technology. All Rights Reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Address: Building 5W, 5 Science Park West Avenue, HKSTP, Pak Shek Kok, NT, Hong Kong
+Email: hello@kintechnology.io
+Website: https://kintechnology.io
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. DEFINITIONS
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+"Agreement" means this Kin Technology Proprietary Software License Agreement.
+"Licensor" means Kin Technology.
+"Software" means all source code, object code, interfaces, content, documentation, and any related materials made available under this Agreement.
+"Authorized User" means an employee, contractor, or agent of Kin Technology who has been explicitly granted permission to access and use the Software.
+
+2. OWNERSHIP AND PROPRIETARY RIGHTS
+
+The Software is the proprietary product and property of Kin Technology and is protected by copyright, trade secret, and other intellectual property laws. Kin Technology retains all right, title, and interest in and to the Software, including all intellectual property rights. No ownership rights to the Software are transferred under this Agreement.
+
+3. LICENSE GRANT
+
+Kin Technology grants a non-transferable, non-sublicensable, internal-use-only license to Authorized Users to use the Software solely for the benefit of Kin Technology and only within the scope of their employment or contractual obligations to Kin Technology.
+
+4. RESTRICTIONS
+
+Except as expressly permitted by this Agreement or by applicable law, you may not:
+
+a) Copy, modify, translate, adapt, alter, or create derivative works of the Software;
+b) Reverse engineer, decompile, disassemble, or attempt to derive the source code of the Software;
+c) Remove, alter, or obscure any proprietary notices on the Software;
+d) Distribute, sublicense, lease, rent, loan, assign, transfer, transmit, or otherwise make available the Software to any third party;
+e) Use the Software for any commercial purpose outside the internal operations of Kin Technology;
+f) Use the Software to develop applications or services that compete with products or services offered by Kin Technology;
+g) Disclose, publish, or otherwise make publicly available any benchmark or performance tests run on the Software;
+h) Disclose any portion of the Software, including any source code, algorithms, methods, or techniques embodied in the Software, to any person or entity outside of Kin Technology.
+
+5. CONFIDENTIALITY
+
+The Software constitutes proprietary and confidential information of Kin Technology. You agree to maintain the confidentiality of the Software with at least the same degree of care as you use for your own confidential information, but in no event less than reasonable care. You agree not to disclose any part of the Software to any third party without the prior written consent of Kin Technology.
+
+6. TERM AND TERMINATION
+
+Your rights under this Agreement will terminate immediately and automatically, without notice from Kin Technology, if you breach any term of this Agreement. Upon termination, you must cease all use of the Software and destroy all copies of the Software in your possession or control.
+
+7. DISCLAIMER OF WARRANTIES
+
+THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND. KIN TECHNOLOGY DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT.
+
+8. LIMITATION OF LIABILITY
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL KIN TECHNOLOGY BE LIABLE FOR ANY SPECIAL, INCIDENTAL, INDIRECT, OR CONSEQUENTIAL DAMAGES WHATSOEVER (INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF PROFITS, BUSINESS INTERRUPTION, LOSS OF INFORMATION, OR ANY OTHER PECUNIARY LOSS) ARISING OUT OF THE USE OF OR INABILITY TO USE THE SOFTWARE.
+
+9. REMEDIES
+
+You acknowledge that unauthorized use or disclosure of the Software would cause irreparable harm to Kin Technology for which damages would not be an adequate remedy. Accordingly, Kin Technology shall be entitled to equitable relief, including injunctive relief and specific performance, as a remedy for any breach or threatened breach of this Agreement.
+
+10. INDEMNIFICATION
+
+You agree to indemnify, defend, and hold harmless Kin Technology from and against any and all claims, liabilities, damages, costs, and expenses, including reasonable attorneys' fees, arising out of or in connection with your unauthorized use of the Software or your breach of this Agreement.
+
+11. GOVERNING LAW AND JURISDICTION
+
+This Agreement shall be governed by and construed in accordance with the laws of Hong Kong Special Administrative Region, without giving effect to any principles of conflicts of law. Any legal action or proceeding relating to this Agreement shall be instituted exclusively in the courts of Hong Kong. You hereby consent to the personal jurisdiction of such courts.
+
+12. ENTIRE AGREEMENT
+
+This Agreement constitutes the entire agreement between you and Kin Technology concerning the subject matter hereof and supersedes all prior or contemporaneous oral or written agreements.
+
+BY USING THE SOFTWARE, YOU ACKNOWLEDGE THAT YOU HAVE READ THIS AGREEMENT, UNDERSTAND IT, AND AGREE TO BE BOUND BY ITS TERMS AND CONDITIONS.
+
+For any questions concerning this Agreement, please contact admin@kintechnology.io

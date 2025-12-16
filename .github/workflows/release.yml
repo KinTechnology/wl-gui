@@ -1,0 +1,79 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v3
+        with:
+          version: 10.7.1
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --prefer-offline
+
+      - name: Build Kindo
+        run: pnpm build:linux
+
+      - name: Generate Changelog
+        id: changelog
+        run: |
+          THIS_TAG=${{ github.ref_name }}
+          PREV_TAG=$(git describe --tags --abbrev=0 "$THIS_TAG"^ 2>/dev/null || echo "")
+
+          echo "Generating changelog from $PREV_TAG to $THIS_TAG"
+
+          if [ -z "$PREV_TAG" ]; then
+            LOGS=$(git log --pretty=format:"- %s [view](https://github.com/${{ github.repository }}/commit/%H)" --no-merges "$THIS_TAG")
+          else
+            LOGS=$(git log --pretty=format:"- %s [view](https://github.com/${{ github.repository }}/commit/%H)" --no-merges "$PREV_TAG..$THIS_TAG")
+          fi
+
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "body<<$EOF" >> "$GITHUB_OUTPUT"
+          echo "## Changelog" >> "$GITHUB_OUTPUT"
+          echo "" >> "$GITHUB_OUTPUT"
+          echo "$LOGS" >> "$GITHUB_OUTPUT"
+          echo "$EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body: ${{ steps.changelog.outputs.body }}
+          generate_release_notes: false
+          files: dist/wl-gui_*.deb
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

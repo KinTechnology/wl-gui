@@ -1,12 +1,11 @@
 {
-  "name": "era",
-  "version": "12.0.0",
-  "description": "A modern Electron application template with React, Vite, TypeScript, Shadcn UI and TailwindCSS",
+  "name": "wl-gui",
+  "version": "0.1.0",
+  "description": "A Linux GUI for wl-cli",
   "main": "./out/main/main.js",
-  "license": "MIT",
   "author": {
-    "name": "Guasam",
-    "url": "https://github.com/guasam"
+    "name": "Kintechnology",
+    "url": "https://github.com/kintechnology"
   },
   "scripts": {
     "dev": "cross-env ELECTRON_DISABLE_SANDBOX=1 electron-vite dev -w",
@@ -20,10 +19,6 @@
     "electron:build:dir": "electron-builder --dir",
     "build:unpack": "run-s vite:build:app electron:build:dir",
     "build:linux": "run-s vite:build:app electron:build:linux"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/guasam/electron-react-app"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
