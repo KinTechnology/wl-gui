@@ -45,7 +45,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --prefer-offline
 
-      - name: Build Kindo
+      - name: Build WL Gui
         run: pnpm build:linux
 
       - name: Generate Changelog

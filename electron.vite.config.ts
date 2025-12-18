@@ -49,6 +49,6 @@ export default defineConfig({
     resolve: {
       alias: aliases,
     },
-    plugins: [tailwindcss(), react()],
+    plugins: [react(), tailwindcss()],
   },
 })
