@@ -74,6 +74,6 @@ jobs:
         with:
           body: ${{ steps.changelog.outputs.body }}
           generate_release_notes: false
-          files: dist/wl-gui_*.deb
+          files: dist/wl-gui*.deb
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

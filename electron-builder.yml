@@ -1,5 +1,5 @@
-appId: com.guasam.era
-productName: ElectronReactApp
+appId: io.kintechnology.wl-gui
+productName: wl-gui
 directories:
   buildResources: resources/build
 files:
@@ -14,8 +14,9 @@ asarUnpack:
 linux:
   target:
     - deb
-  maintainer: electronjs.org
+  maintainer: kintechnology.io
   category: Utility
+  artifactName: "${productName}-arm64.${ext}"
 npmRebuild: false
 publish:
   provider: generic
