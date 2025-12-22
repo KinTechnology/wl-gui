@@ -13,11 +13,10 @@ asarUnpack:
   - resources/**
 linux:
   target:
-    - deb
+    - target: deb
+      arch:
+        - arm64
   maintainer: kintechnology.io
   category: Utility
   artifactName: "${productName}-arm64.${ext}"
 npmRebuild: false
-publish:
-  provider: generic
-  url: https://example.com/auto-updates
