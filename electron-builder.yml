@@ -20,3 +20,4 @@ linux:
   category: Utility
   artifactName: "${productName}-arm64.${ext}"
 npmRebuild: false
+publish: null
