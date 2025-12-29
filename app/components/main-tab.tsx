@@ -38,9 +38,12 @@ function MainTab() {
           try {
             setRunningId(label)
             action.increment()
-            const commands = createCommands(valueAsNumber)
+            const [command, ...restCommands] = createCommands(valueAsNumber)
 
-            for (const command of commands) {
+            setLogs([`running ${command}`])
+            await window.execAsync('wl', [command]).catch(() => {})
+
+            for (const command of restCommands) {
               setLogs([`running ${command}`])
               await new Promise((resolve) => setTimeout(resolve, 1000))
               await window.execAsync('wl', [command])
