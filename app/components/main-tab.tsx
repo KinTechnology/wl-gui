@@ -5,6 +5,8 @@ import { COMMANDS } from '@/lib/data/commands'
 import { StickyLoader } from './ui/sticky-loader'
 import { usePrompt } from './prompt'
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
 function MainTab() {
   const [runningId, setRunningId] = useState('')
   const { setLogs, action } = useStore()
@@ -44,6 +46,13 @@ function MainTab() {
             await window.execAsync('wl', [command]).catch(() => {})
 
             for (const command of restCommands) {
+              if (command.startsWith('up') || command.startsWith('down')) {
+                await sleep(3000)
+              }
+              if (command.startsWith('nrate')) {
+                await sleep(2000)
+              }
+
               setLogs([`running ${command}`])
               await new Promise((resolve) => setTimeout(resolve, 1000))
               await window.execAsync('wl', [command]).catch((err) => {

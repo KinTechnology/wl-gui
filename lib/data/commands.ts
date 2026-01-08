@@ -1,4 +1,4 @@
-const COMMON_BEFORE = () => ['pkteng_stop tx', 'down', 'mpc 0', 'phy_watchdog 0', 'country DE']
+const COMMON_BEFORE = () => ['pkteng_stop tx', 'up', 'down', 'mpc 0', 'phy_watchdog 0', 'country DE']
 
 const COMMON_AFTER = (txpwr: number) => [
   'up',
