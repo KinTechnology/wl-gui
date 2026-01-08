@@ -46,7 +46,9 @@ function MainTab() {
             for (const command of restCommands) {
               setLogs([`running ${command}`])
               await new Promise((resolve) => setTimeout(resolve, 1000))
-              await window.execAsync('wl', [command])
+              await window.execAsync('wl', [command]).catch((err) => {
+                setLogs([`Error: ${err.message}`, `Error: exit code: ${err.code ?? 'unknown'}`, ''])
+              })
             }
           } catch (err: any) {
             setLogs([`Error: ${err.message}`, `Error: exit code: ${err.code ?? 'unknown'}`, ''])
