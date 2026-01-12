@@ -1,0 +1,22 @@
+#!/bin/bash
+set -e
+
+cd "$(dirname "$0")/.."
+
+if [[ -z "$1" ]]; then
+    echo "Usage: $0 <major|minor|patch>"
+    exit 1
+fi
+
+# Get new version from svu
+VERSION=$(svu "$1")
+
+# Update package.json version
+npm version "$VERSION" --no-git-tag-version
+
+# Create git tag
+git add package.json
+git commit -m "package bump $VERSION"
+git tag "v$VERSION"
+
+echo "Released v$VERSION"
