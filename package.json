@@ -1,6 +1,6 @@
 {
   "name": "wl-gui",
-  "version": "1.0.0",
+  "version": "0.3.0",
   "description": "A Linux GUI for wl-cli",
   "main": "./out/main/main.js",
   "author": {
