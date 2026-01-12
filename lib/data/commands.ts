@@ -1,12 +1,12 @@
 const COMMON_BEFORE = () => ['pkteng_stop tx', 'up', 'down', 'mpc 0', 'phy_watchdog 0', 'country DE']
 
-const COMMON_AFTER = (txpwr: number) => [
+const COMMON_AFTER = ({ mode, txpwr }: { txpwr: number; mode: 'tx' | 'rx' }) => [
   'up',
   'phy_forcecal 1',
   'scansuppress 1',
   'phy_txpwrctrl 1',
   `txpwr1 -o -d ${txpwr}`,
-  'pkteng_start 00:11:22:33:44:55 tx 100 1024 0',
+  `pkteng_start 00:11:22:33:44:55 ${mode} 100 1024 0`,
 ]
 
 const COMMANDS = {
@@ -18,7 +18,7 @@ const COMMANDS = {
     'nmode 0',
     'vhtmode 0',
     'nrate -r 1',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11b TX Mode; Channel 7; Rate: CCK-1M; TX Power:15': (tx: number) => [
@@ -29,7 +29,7 @@ const COMMANDS = {
     'nmode 0',
     'vhtmode 0',
     'nrate -r 1',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11b TX Mode; Channel 13; Rate: CCK-1M; TX Power:15': (tx: number) => [
@@ -40,7 +40,7 @@ const COMMANDS = {
     'nmode 0',
     'vhtmode 0',
     'nrate -r 1',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11b TX Mode; Channel 1; Rate: CCK-11M; TX Power:15': (tx: number) => [
@@ -51,7 +51,7 @@ const COMMANDS = {
     'nmode 0',
     'vhtmode 0',
     'nrate -r 11',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11b TX Mode; Channel 7; Rate: CCK-11M; TX Power:15': (tx: number) => [
@@ -62,7 +62,7 @@ const COMMANDS = {
     'nmode 0',
     'vhtmode 0',
     'nrate -r 11',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11b TX Mode; Channel 13; Rate: CCK-11M; TX Power:15': (tx: number) => [
@@ -73,7 +73,7 @@ const COMMANDS = {
     'nmode 0',
     'vhtmode 0',
     'nrate -r 11',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11g TX Mode; Channel 1; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -86,7 +86,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 1',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11g TX Mode; Channel 7; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -99,7 +99,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 7',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11g TX Mode; Channel 13; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -112,7 +112,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 13',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11g TX Mode; Channel 1; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -125,7 +125,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 1',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11g TX Mode; Channel 7; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -138,7 +138,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 7',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11g TX Mode; Channel 13; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -151,7 +151,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 13',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11n20 TX Mode; Channel 1; Rate: HT MCS0; TX Power:15': (tx: number) => [
@@ -163,7 +163,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 1/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11n20 TX Mode; Channel 7; Rate: HT MCS0; TX Power:15': (tx: number) => [
@@ -175,7 +175,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 7/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11n20 TX Mode; Channel 13; Rate: HT MCS0; TX Power:15': (tx: number) => [
@@ -187,7 +187,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 13/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11n20 TX Mode; Channel 1; Rate: HT MCS7; TX Power:15': (tx: number) => [
@@ -199,7 +199,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 1/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11n20 TX Mode; Channel 7; Rate: HT MCS7; TX Power:15': (tx: number) => [
@@ -211,7 +211,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 7/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11n20 TX Mode; Channel 13; Rate: HT MCS7; TX Power:15': (tx: number) => [
@@ -223,7 +223,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 13/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11n40 TX Mode; Channel 3; Rate: HT MCS0; TX Power:15': (tx: number) => [
@@ -235,7 +235,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 3/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11n40 TX Mode; Channel 7; Rate: HT MCS0; TX Power:15': (tx: number) => [
@@ -247,7 +247,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 7/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11n40 TX Mode; Channel 11; Rate: HT MCS0; TX Power:15': (tx: number) => [
@@ -259,7 +259,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 11/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11n40 TX Mode; Channel 3; Rate: HT MCS7; TX Power:15': (tx: number) => [
@@ -271,7 +271,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 3/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11n40 TX Mode; Channel 7; Rate: HT MCS7; TX Power:15': (tx: number) => [
@@ -283,7 +283,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 7/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11n40 TX Mode; Channel 11; Rate: HT MCS7; TX Power:15': (tx: number) => [
@@ -295,7 +295,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 11/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11a TX Mode; Channel 36; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -307,7 +307,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 36',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11a TX Mode; Channel 40; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -319,7 +319,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 40',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11a TX Mode; Channel 48; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -331,7 +331,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 48',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11a TX Mode; Channel 36; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -343,7 +343,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 36',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11a TX Mode; Channel 40; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -355,7 +355,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 40',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11a TX Mode; Channel 48; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -367,7 +367,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 48',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11n20 TX Mode; Channel 36; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -379,7 +379,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 36/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11n20 TX Mode; Channel 40; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -391,7 +391,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 40/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11n20 TX Mode; Channel 48; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -403,7 +403,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 48/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11n20 TX Mode; Channel 36; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -415,7 +415,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 36/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11n20 TX Mode; Channel 40; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -427,7 +427,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 40/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11n20 TX Mode; Channel 48; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -439,7 +439,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 48/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac20 TX Mode; Channel 36; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -451,7 +451,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 36/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac20 TX Mode; Channel 40; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -463,7 +463,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 40/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac20 TX Mode; Channel 48; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -475,7 +475,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 48/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac20 TX Mode; Channel 36; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -487,7 +487,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 36/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac20 TX Mode; Channel 40; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -499,7 +499,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 40/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac20 TX Mode; Channel 48; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -511,7 +511,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 48/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11n40 TX Mode; Channel 38; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -523,7 +523,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 38/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11n40 TX Mode; Channel 46; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -535,7 +535,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 46/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11n40 TX Mode; Channel 38; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -547,7 +547,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 38/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11n40 TX Mode; Channel 46; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -559,7 +559,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 46/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac40 TX Mode; Channel 38; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -571,7 +571,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 38/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac40 TX Mode; Channel 46; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -583,7 +583,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 46/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac40 TX Mode; Channel 38; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -595,7 +595,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 38/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac40 TX Mode; Channel 46; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -607,7 +607,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 46/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac80 TX Mode; Channel 42; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -619,7 +619,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 42/80',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac80 TX Mode; Channel 42; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -631,7 +631,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 42/80',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11a TX Mode; Channel 52; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -643,7 +643,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 52',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11a TX Mode; Channel 60; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -655,7 +655,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 60',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11a TX Mode; Channel 64; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -667,7 +667,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 64',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11a TX Mode; Channel 52; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -679,7 +679,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 52',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11a TX Mode; Channel 60; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -691,7 +691,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 60',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11a TX Mode; Channel 64; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -703,7 +703,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 64',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11n20 TX Mode; Channel 52; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -715,7 +715,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 52/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11n20 TX Mode; Channel 60; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -727,7 +727,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 60/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11n20 TX Mode; Channel 64; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -739,7 +739,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 64/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11n20 TX Mode; Channel 52; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -751,7 +751,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 52/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11n20 TX Mode; Channel 60; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -763,7 +763,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 60/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11n20 TX Mode; Channel 64; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -775,7 +775,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 64/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac20 TX Mode; Channel 52; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -787,7 +787,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 52/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac20 TX Mode; Channel 60; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -799,7 +799,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 60/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac20 TX Mode; Channel 64; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -811,7 +811,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 64/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac20 TX Mode; Channel 52; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -823,7 +823,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 52/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac20 TX Mode; Channel 60; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -835,7 +835,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 60/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac20 TX Mode; Channel 64; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -847,7 +847,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 64/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11n40 TX Mode; Channel 54; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -859,7 +859,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 54/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11n40 TX Mode; Channel 62; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -871,7 +871,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 62/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11n40 TX Mode; Channel 54; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -883,7 +883,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 54/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11n40 TX Mode; Channel 62; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -895,7 +895,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 62/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac40 TX Mode; Channel 54; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -907,7 +907,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 54/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac40 TX Mode; Channel 62; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -919,7 +919,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 62/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac40 TX Mode; Channel 54; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -931,7 +931,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 54/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac40 TX Mode; Channel 62; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -943,7 +943,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 62/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac80 TX Mode; Channel 58; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -955,7 +955,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 58/80',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac80 TX Mode; Channel 58; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -967,7 +967,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 58/80',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11a TX Mode; Channel 100; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -979,7 +979,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 100',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11a TX Mode; Channel 120; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -991,7 +991,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 120',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11a TX Mode; Channel 140; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -1003,7 +1003,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 140',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11a TX Mode; Channel 144; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -1015,7 +1015,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 144',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11a TX Mode; Channel 100; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -1027,7 +1027,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 100',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11a TX Mode; Channel 120; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -1039,7 +1039,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 120',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11a TX Mode; Channel 140; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -1051,7 +1051,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 140',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11a TX Mode; Channel 144; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -1063,7 +1063,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 144',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n20 TX Mode; Channel 100; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -1075,7 +1075,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 100/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n20 TX Mode; Channel 120; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -1087,7 +1087,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 120/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n20 TX Mode; Channel 140; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -1099,7 +1099,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 140/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n20 TX Mode; Channel 144; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -1111,7 +1111,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 144/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n20 TX Mode; Channel 100; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -1123,7 +1123,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 100/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n20 TX Mode; Channel 120; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -1135,7 +1135,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 120/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n20 TX Mode; Channel 140; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -1147,7 +1147,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 140/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n20 TX Mode; Channel 144; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -1159,7 +1159,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 144/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac20 TX Mode; Channel 100; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -1171,7 +1171,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 100/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac20 TX Mode; Channel 120; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -1183,7 +1183,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 120/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac20 TX Mode; Channel 140; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -1195,7 +1195,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 140/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac20 TX Mode; Channel 144; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -1207,7 +1207,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 144/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac20 TX Mode; Channel 100; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -1219,7 +1219,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 100/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac20 TX Mode; Channel 120; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -1231,7 +1231,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 120/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac20 TX Mode; Channel 140; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -1243,7 +1243,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 140/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac20 TX Mode; Channel 144; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -1255,7 +1255,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 144/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n40 TX Mode; Channel 102; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -1267,7 +1267,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 102/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n40 TX Mode; Channel 126; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -1279,7 +1279,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 126/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n40 TX Mode; Channel 134; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -1291,7 +1291,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 134/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n40 TX Mode; Channel 142; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -1303,7 +1303,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 142/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n40 TX Mode; Channel 102; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -1315,7 +1315,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 102/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n40 TX Mode; Channel 126; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -1327,7 +1327,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 126/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n40 TX Mode; Channel 134; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -1339,7 +1339,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 134/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n40 TX Mode; Channel 142; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -1351,7 +1351,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 142/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac40 TX Mode; Channel 102; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -1363,7 +1363,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 102/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac40 TX Mode; Channel 126; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -1375,7 +1375,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 126/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac40 TX Mode; Channel 134; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -1387,7 +1387,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 134/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac40 TX Mode; Channel 142; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -1399,7 +1399,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 142/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac40 TX Mode; Channel 102; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -1411,7 +1411,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 102/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac40 TX Mode; Channel 126; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -1423,7 +1423,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 126/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac40 TX Mode; Channel 134; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -1435,7 +1435,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 134/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac40 TX Mode; Channel 142; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -1447,7 +1447,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 142/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac80 TX Mode; Channel 106; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -1459,7 +1459,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 106/80',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac80 TX Mode; Channel 122; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -1471,7 +1471,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 122/80',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac80 TX Mode; Channel 138; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -1483,7 +1483,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 138/80',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac80 TX Mode; Channel 106; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -1495,7 +1495,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 106/80',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac80 TX Mode; Channel 122; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -1507,7 +1507,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 122/80',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac80 TX Mode; Channel 138; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -1519,7 +1519,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 138/80',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11a TX Mode; Channel 149; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -1531,7 +1531,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 149',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11a TX Mode; Channel 157; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -1543,7 +1543,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 157',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11a TX Mode; Channel 165; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -1555,7 +1555,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 165',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11a TX Mode; Channel 149; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -1567,7 +1567,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 149',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11a TX Mode; Channel 157; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -1579,7 +1579,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 157',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11a TX Mode; Channel 165; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -1591,7 +1591,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 165',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11n20 TX Mode; Channel 149; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -1603,7 +1603,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 149/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11n20 TX Mode; Channel 157; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -1615,7 +1615,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 157/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11n20 TX Mode; Channel 165; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -1627,7 +1627,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 165/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11n20 TX Mode; Channel 149; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -1639,7 +1639,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 149/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11n20 TX Mode; Channel 157; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -1651,7 +1651,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 157/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11n20 TX Mode; Channel 165; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -1663,7 +1663,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 165/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac20 TX Mode; Channel 149; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -1675,7 +1675,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 149/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac20 TX Mode; Channel 157; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -1687,7 +1687,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 157/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac20 TX Mode; Channel 165; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -1699,7 +1699,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 165/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac20 TX Mode; Channel 149; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -1711,7 +1711,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 149/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac20 TX Mode; Channel 157; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -1723,7 +1723,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 157/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac20 TX Mode; Channel 165; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -1735,7 +1735,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 165/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11n40 TX Mode; Channel 151; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -1747,7 +1747,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 151/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11n40 TX Mode; Channel 159; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -1759,7 +1759,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 159/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11n40 TX Mode; Channel 151; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -1771,7 +1771,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 151/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11n40 TX Mode; Channel 159; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -1783,7 +1783,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 159/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac40 TX Mode; Channel 151; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -1795,7 +1795,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 151/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac40 TX Mode; Channel 159; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -1807,7 +1807,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 159/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac40 TX Mode; Channel 151; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -1819,7 +1819,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 151/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac40 TX Mode; Channel 159; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -1831,7 +1831,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 159/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac80 TX Mode; Channel 155; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -1843,7 +1843,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 155/80',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac80 TX Mode; Channel 155; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -1855,7 +1855,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 155/80',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'tx' }),
   ],
 
   '2.4GWIFI 802.11b RX Mode; Channel 1; Rate: CCK-1M; TX Power:15': (tx: number) => [
@@ -1866,7 +1866,7 @@ const COMMANDS = {
     'nmode 0',
     'vhtmode 0',
     'nrate -r 1',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11b RX Mode; Channel 7; Rate: CCK-1M; TX Power:15': (tx: number) => [
@@ -1877,7 +1877,7 @@ const COMMANDS = {
     'nmode 0',
     'vhtmode 0',
     'nrate -r 1',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11b RX Mode; Channel 13; Rate: CCK-1M; TX Power:15': (tx: number) => [
@@ -1888,7 +1888,7 @@ const COMMANDS = {
     'nmode 0',
     'vhtmode 0',
     'nrate -r 1',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11b RX Mode; Channel 1; Rate: CCK-11M; TX Power:15': (tx: number) => [
@@ -1899,7 +1899,7 @@ const COMMANDS = {
     'nmode 0',
     'vhtmode 0',
     'nrate -r 11',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11b RX Mode; Channel 7; Rate: CCK-11M; TX Power:15': (tx: number) => [
@@ -1910,7 +1910,7 @@ const COMMANDS = {
     'nmode 0',
     'vhtmode 0',
     'nrate -r 11',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11b RX Mode; Channel 13; Rate: CCK-11M; TX Power:15': (tx: number) => [
@@ -1921,7 +1921,7 @@ const COMMANDS = {
     'nmode 0',
     'vhtmode 0',
     'nrate -r 11',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11g RX Mode; Channel 1; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -1934,7 +1934,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 1',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11R TX Mode; Channel 7; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -1947,7 +1947,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 7',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11g RX Mode; Channel 13; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -1960,7 +1960,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 13',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11g RX Mode; Channel 1; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -1973,7 +1973,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 1',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11g RX Mode; Channel 7; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -1986,7 +1986,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 7',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11g RX Mode; Channel 13; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -1999,7 +1999,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 13',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11n20 RX Mode; Channel 1; Rate: HT MCS0; TX Power:15': (tx: number) => [
@@ -2011,7 +2011,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 1/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11n20 RX Mode; Channel 7; Rate: HT MCS0; TX Power:15': (tx: number) => [
@@ -2023,7 +2023,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 7/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11n20 RX Mode; Channel 13; Rate: HT MCS0; TX Power:15': (tx: number) => [
@@ -2035,7 +2035,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 13/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11n20 RX Mode; Channel 1; Rate: HT MCS7; TX Power:15': (tx: number) => [
@@ -2047,7 +2047,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 1/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11n20 RX Mode; Channel 7; Rate: HT MCS7; TX Power:15': (tx: number) => [
@@ -2059,7 +2059,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 7/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11n20 RX Mode; Channel 13; Rate: HT MCS7; TX Power:15': (tx: number) => [
@@ -2071,7 +2071,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 13/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11n40 RX Mode; Channel 3; Rate: HT MCS0; TX Power:15': (tx: number) => [
@@ -2083,7 +2083,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 3/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11n40 RX Mode; Channel 7; Rate: HT MCS0; TX Power:15': (tx: number) => [
@@ -2095,7 +2095,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 7/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11n40 RX Mode; Channel 11; Rate: HT MCS0; TX Power:15': (tx: number) => [
@@ -2107,7 +2107,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 11/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11n40 RX Mode; Channel 3; Rate: HT MCS7; TX Power:15': (tx: number) => [
@@ -2119,7 +2119,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 3/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11n40 RX Mode; Channel 7; Rate: HT MCS7; TX Power:15': (tx: number) => [
@@ -2131,7 +2131,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 7/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11n40 RX Mode; Channel 11; Rate: HT MCS7; TX Power:15': (tx: number) => [
@@ -2143,7 +2143,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 11/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11a RX Mode; Channel 36; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -2155,7 +2155,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 36',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11a RX Mode; Channel 40; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -2167,7 +2167,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 40',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11a RX Mode; Channel 48; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -2179,7 +2179,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 48',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11a RX Mode; Channel 36; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -2191,7 +2191,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 36',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11a RX Mode; Channel 40; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -2203,7 +2203,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 40',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11a RX Mode; Channel 48; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -2215,7 +2215,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 48',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11n20 RX Mode; Channel 36; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -2227,7 +2227,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 36/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11n20 RX Mode; Channel 40; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -2239,7 +2239,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 40/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11n20 RX Mode; Channel 48; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -2251,7 +2251,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 48/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11n20 RX Mode; Channel 36; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -2263,7 +2263,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 36/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11n20 RX Mode; Channel 40; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -2275,7 +2275,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 40/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11n20 RX Mode; Channel 48; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -2287,7 +2287,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 48/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac20 RX Mode; Channel 36; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -2299,7 +2299,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 36/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac20 RX Mode; Channel 40; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -2311,7 +2311,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 40/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac20 RX Mode; Channel 48; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -2323,7 +2323,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 48/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac20 RX Mode; Channel 36; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -2335,7 +2335,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 36/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac20 RX Mode; Channel 40; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -2347,7 +2347,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 40/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac20 RX Mode; Channel 48; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -2359,7 +2359,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 48/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11n40 RX Mode; Channel 38; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -2371,7 +2371,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 38/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11n40 RX Mode; Channel 46; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -2383,7 +2383,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 46/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11n40 RX Mode; Channel 38; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -2395,7 +2395,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 38/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11n40 RX Mode; Channel 46; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -2407,7 +2407,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 46/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac40 RX Mode; Channel 38; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -2419,7 +2419,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 38/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac40 RX Mode; Channel 46; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -2431,7 +2431,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 46/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac40 RX Mode; Channel 38; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -2443,7 +2443,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 38/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac40 RX Mode; Channel 46; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -2455,7 +2455,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 46/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac80 RX Mode; Channel 42; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -2467,7 +2467,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 42/80',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5150-5250MHz) 802.11ac80 RX Mode; Channel 42; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -2479,7 +2479,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 42/80',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11a RX Mode; Channel 52; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -2491,7 +2491,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 52',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11a RX Mode; Channel 60; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -2503,7 +2503,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 60',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11a RX Mode; Channel 64; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -2515,7 +2515,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 64',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11a RX Mode; Channel 52; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -2527,7 +2527,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 52',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11a RX Mode; Channel 60; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -2539,7 +2539,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 60',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11a RX Mode; Channel 64; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -2551,7 +2551,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 64',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11n20 RX Mode; Channel 52; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -2563,7 +2563,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 52/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11n20 RX Mode; Channel 60; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -2575,7 +2575,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 60/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11n20 RX Mode; Channel 64; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -2587,7 +2587,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 64/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11n20 RX Mode; Channel 52; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -2599,7 +2599,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 52/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11n20 RX Mode; Channel 60; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -2611,7 +2611,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 60/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11n20 RX Mode; Channel 64; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -2623,7 +2623,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 64/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac20 RX Mode; Channel 52; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -2635,7 +2635,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 52/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac20 RX Mode; Channel 60; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -2647,7 +2647,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 60/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac20 RX Mode; Channel 64; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -2659,7 +2659,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 64/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac20 RX Mode; Channel 52; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -2671,7 +2671,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 52/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac20 RX Mode; Channel 60; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -2683,7 +2683,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 60/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac20 RX Mode; Channel 64; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -2695,7 +2695,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 64/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11n40 RX Mode; Channel 54; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -2707,7 +2707,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 54/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11n40 RX Mode; Channel 62; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -2719,7 +2719,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 62/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11n40 RX Mode; Channel 54; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -2731,7 +2731,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 54/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11n40 RX Mode; Channel 62; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -2743,7 +2743,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 62/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac40 RX Mode; Channel 54; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -2755,7 +2755,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 54/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac40 RX Mode; Channel 62; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -2767,7 +2767,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 62/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac40 RX Mode; Channel 54; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -2779,7 +2779,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 54/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac40 RX Mode; Channel 62; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -2791,7 +2791,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 62/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac80 RX Mode; Channel 58; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -2803,7 +2803,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 58/80',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5250-5350MHz) 802.11ac80 RX Mode; Channel 58; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -2815,7 +2815,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 58/80',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11a RX Mode; Channel 100; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -2827,7 +2827,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 100',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11a RX Mode; Channel 120; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -2839,7 +2839,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 120',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11a RX Mode; Channel 140; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -2851,7 +2851,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 140',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11a RX Mode; Channel 144; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -2863,7 +2863,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 144',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11a RX Mode; Channel 100; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -2875,7 +2875,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 100',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11a RX Mode; Channel 120; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -2887,7 +2887,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 120',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11a RX Mode; Channel 140; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -2899,7 +2899,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 140',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11a RX Mode; Channel 144; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -2911,7 +2911,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 144',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n20 RX Mode; Channel 100; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -2923,7 +2923,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 100/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n20 RX Mode; Channel 120; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -2935,7 +2935,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 120/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n20 RX Mode; Channel 140; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -2947,7 +2947,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 140/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n20 RX Mode; Channel 144; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -2959,7 +2959,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 144/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n20 RX Mode; Channel 100; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -2971,7 +2971,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 100/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n20 RX Mode; Channel 120; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -2983,7 +2983,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 120/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n20 RX Mode; Channel 140; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -2995,7 +2995,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 140/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n20 RX Mode; Channel 144; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -3007,7 +3007,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 144/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac20 RX Mode; Channel 100; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -3019,7 +3019,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 100/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac20 RX Mode; Channel 120; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -3031,7 +3031,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 120/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac20 RX Mode; Channel 140; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -3043,7 +3043,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 140/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac20 RX Mode; Channel 144; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -3055,7 +3055,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 144/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac20 RX Mode; Channel 100; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -3067,7 +3067,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 100/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac20 RX Mode; Channel 120; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -3079,7 +3079,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 120/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac20 RX Mode; Channel 140; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -3091,7 +3091,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 140/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac20 RX Mode; Channel 144; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -3103,7 +3103,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 144/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n40 RX Mode; Channel 102; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -3115,7 +3115,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 102/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n40 RX Mode; Channel 126; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -3127,7 +3127,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 126/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n40 RX Mode; Channel 134; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -3139,7 +3139,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 134/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n40 RX Mode; Channel 142; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -3151,7 +3151,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 142/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n40 RX Mode; Channel 102; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -3163,7 +3163,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 102/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n40 RX Mode; Channel 126; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -3175,7 +3175,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 126/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n40 RX Mode; Channel 134; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -3187,7 +3187,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 134/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11n40 RX Mode; Channel 142; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -3199,7 +3199,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 142/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac40 RX Mode; Channel 102; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -3211,7 +3211,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 102/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac40 RX Mode; Channel 126; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -3223,7 +3223,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 126/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac40 RX Mode; Channel 134; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -3235,7 +3235,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 134/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac40 RX Mode; Channel 142; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -3247,7 +3247,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 142/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac40 RX Mode; Channel 102; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -3259,7 +3259,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 102/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac40 RX Mode; Channel 126; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -3271,7 +3271,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 126/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac40 RX Mode; Channel 134; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -3283,7 +3283,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 134/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac40 RX Mode; Channel 142; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -3295,7 +3295,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 142/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac80 RX Mode; Channel 106; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -3307,7 +3307,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 106/80',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac80 RX Mode; Channel 122; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -3319,7 +3319,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 122/80',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac80 RX Mode; Channel 138; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -3331,7 +3331,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 138/80',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac80 RX Mode; Channel 106; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -3343,7 +3343,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 106/80',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac80 RX Mode; Channel 122; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -3355,7 +3355,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 122/80',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5470-5725MHz) 802.11ac80 RX Mode; Channel 138; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -3367,7 +3367,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 138/80',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11a RX Mode; Channel 149; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -3379,7 +3379,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 149',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11a RX Mode; Channel 157; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -3391,7 +3391,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 157',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11a RX Mode; Channel 165; Rate: OFDM-6M; TX Power:15': (tx: number) => [
@@ -3403,7 +3403,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 165',
     'nrate -r 6',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11a RX Mode; Channel 149; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -3415,7 +3415,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 149',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11a RX Mode; Channel 157; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -3427,7 +3427,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 157',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11a RX Mode; Channel 165; Rate: OFDM-54M; TX Power:15': (tx: number) => [
@@ -3439,7 +3439,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 165',
     'nrate -r 54',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11n20 RX Mode; Channel 149; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -3451,7 +3451,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 149/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11n20 RX Mode; Channel 157; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -3463,7 +3463,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 157/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11n20 RX Mode; Channel 165; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -3475,7 +3475,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 165/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11n20 RX Mode; Channel 149; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -3487,7 +3487,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 149/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11n20 RX Mode; Channel 157; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -3499,7 +3499,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 157/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11n20 RX Mode; Channel 165; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -3511,7 +3511,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 165/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac20 RX Mode; Channel 149; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -3523,7 +3523,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 149/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac20 RX Mode; Channel 157; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -3535,7 +3535,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 157/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac20 RX Mode; Channel 165; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -3547,7 +3547,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 165/20',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac20 RX Mode; Channel 149; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -3559,7 +3559,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 149/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac20 RX Mode; Channel 157; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -3571,7 +3571,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 157/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac20 RX Mode; Channel 165; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -3583,7 +3583,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 165/20',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11n40 RX Mode; Channel 151; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -3595,7 +3595,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 151/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11n40 RX Mode; Channel 159; Rate:HT MCS0; TX Power:15': (tx: number) => [
@@ -3607,7 +3607,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 159/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11n40 RX Mode; Channel 151; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -3619,7 +3619,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 151/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11n40 RX Mode; Channel 159; Rate:HT MCS7; TX Power:15': (tx: number) => [
@@ -3631,7 +3631,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 159/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac40 RX Mode; Channel 151; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -3643,7 +3643,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 151/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac40 RX Mode; Channel 159; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -3655,7 +3655,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 159/40',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac40 RX Mode; Channel 151; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -3667,7 +3667,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 151/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac40 RX Mode; Channel 159; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -3679,7 +3679,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 159/40',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac80 RX Mode; Channel 155; Rate:VHT MCS0; TX Power:15': (tx: number) => [
@@ -3691,7 +3691,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 155/80',
     'nrate -m 0',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '5GWIFI(5725-5850MHz) 802.11ac80 RX Mode; Channel 155; Rate:VHT MCS7; TX Power:15': (tx: number) => [
@@ -3703,7 +3703,7 @@ const COMMANDS = {
     'reg set DE',
     'chanspec 155/80',
     'nrate -m 7',
-    ...COMMON_AFTER(tx),
+    ...COMMON_AFTER({ txpwr: tx, mode: 'rx' }),
   ],
 
   '2.4GWIFI 802.11b; Single-carrier Mode; Channel 1': (tx: number) => [
