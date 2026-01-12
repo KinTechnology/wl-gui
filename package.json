@@ -18,7 +18,8 @@
     "electron:build:linux": "electron-builder --linux",
     "electron:build:dir": "electron-builder --dir",
     "build:unpack": "run-s vite:build:app electron:build:dir",
-    "build:linux": "run-s vite:build:app electron:build:linux"
+    "build:linux": "run-s vite:build:app electron:build:linux",
+    "rel": "./scripts/release"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
