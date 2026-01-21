@@ -14,7 +14,7 @@ class ExecError extends Error {
 
 const execAsync = async (bin: string, args: string[] = []) => {
   try {
-    const command = ['sudo', bin, args].join(' ')
+    const command = import.meta.env.DEV ? ['echo', bin, args].join(' ') : ['sudo', bin, args].join(' ')
 
     const { stdout } = await _execAsync(command)
 

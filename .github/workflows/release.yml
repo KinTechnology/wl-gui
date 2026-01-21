@@ -17,6 +17,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -44,6 +48,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --prefer-offline
+
+      - name: Update package.json version
+        run: pnpm version ${{ steps.version.outputs.VERSION }} --no-git-tag-version --allow-same-version
 
       - name: Build WL Gui
         run: pnpm build:linux
