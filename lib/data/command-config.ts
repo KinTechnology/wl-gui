@@ -304,15 +304,15 @@ export function buildCommands(params: {
       `nmode ${config.nmode}`,
       `vhtmode ${config.vhtmode}`,
       `gmode ${config.gmode}`,
-      'reg set DE',
+      'country DE',
       `chanspec ${chanspec}`
     )
   } else {
     commands.push('mimo_txbw 4', 'txchain 1', `nmode ${config.nmode}`, `vhtmode ${config.vhtmode}`)
 
-    // Add reg set DE for standards that need it (n and ac modes)
+    // Add country DE for standards that need it (n and ac modes)
     if (standard.includes('n') || standard.includes('ac')) {
-      commands.push('reg set DE')
+      commands.push('country DE')
     }
 
     commands.push(`chanspec ${chanspec}`)

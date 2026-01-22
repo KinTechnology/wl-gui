@@ -2,19 +2,47 @@ import { Loader2Icon } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useStore } from '../store'
 import { Button } from './ui/button'
-import { Select } from './ui/select'
 import { Input } from './ui/input'
-import {
-  BANDS,
-  STANDARDS,
-  MODES,
-  CHANNELS,
-  RATES,
-  buildCommands,
-  getConfigLabel,
-} from '@/lib/data/command-config'
+import { cn } from '@/lib/utils'
+import { BANDS, STANDARDS, MODES, CHANNELS, RATES, buildCommands, getConfigLabel } from '@/lib/data/command-config'
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
+type SelectOption = { value: string; label: string }
+
+function ButtonGroup({
+  options,
+  value,
+  onChange,
+  disabled,
+}: {
+  options: SelectOption[]
+  value: string
+  onChange: (value: string) => void
+  disabled?: boolean
+}) {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {options.map((option) => (
+        <button
+          key={option.value}
+          type="button"
+          onClick={() => onChange(option.value)}
+          disabled={disabled}
+          className={cn(
+            'px-3 py-1.5 text-sm rounded-md border transition-colors',
+            value === option.value
+              ? 'bg-blue-600 border-blue-600 text-white'
+              : 'bg-gray-7 border-gray-6 text-gray-3 hover:bg-gray-6',
+            disabled && 'opacity-50 cursor-not-allowed'
+          )}
+        >
+          {option.label}
+        </button>
+      ))}
+    </div>
+  )
+}
 
 function IndividualTab() {
   const { setLogs, action } = useStore()
@@ -127,112 +155,113 @@ function IndividualTab() {
     }
   }
 
+  const x = Boolean(0)
+
   return (
-    <div className="h-full bg-gray-8 flex flex-col gap-4 overflow-auto p-4">
+    <div className="bg-gray-8 overflow-scroll p-4">
       {/* Band Selection */}
-      <div className="flex flex-col gap-1">
-        <label className="text-sm font-medium text-gray-4">Band</label>
-        <Select
-          value={band}
-          onChange={(e) => setBand(e.target.value)}
-          options={[...BANDS]}
-          disabled={isRunning}
-        />
-      </div>
-
-      {/* Standard Selection */}
-      <div className="flex flex-col gap-1">
-        <label className="text-sm font-medium text-gray-4">Standard</label>
-        <Select
-          value={standard}
-          onChange={(e) => setStandard(e.target.value)}
-          options={availableStandards}
-          disabled={isRunning || availableStandards.length === 0}
-        />
-      </div>
-
-      {/* Mode Selection */}
-      <div className="flex flex-col gap-1">
-        <label className="text-sm font-medium text-gray-4">Mode</label>
-        <Select
-          value={mode}
-          onChange={(e) => setMode(e.target.value as 'tx' | 'rx' | 'single-carrier')}
-          options={[...MODES]}
-          disabled={isRunning}
-        />
-      </div>
-
-      {/* Channel Selection */}
-      <div className="flex flex-col gap-1">
-        <label className="text-sm font-medium text-gray-4">Channel</label>
-        <Select
-          value={channel}
-          onChange={(e) => setChannel(e.target.value)}
-          options={availableChannels}
-          disabled={isRunning || availableChannels.length === 0}
-        />
-      </div>
-
-      {/* Rate Selection (hidden for single-carrier mode) */}
-      {showRateSelector && (
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium text-gray-4">Rate</label>
-          <Select
-            value={rate}
-            onChange={(e) => setRate(e.target.value)}
-            options={availableRates}
-            disabled={isRunning || availableRates.length === 0}
-          />
-        </div>
-      )}
-
-      {/* TX Power Input */}
-      <div className="flex flex-col gap-1">
-        <label className="text-sm font-medium text-gray-4">TX Power</label>
-        <Input
-          type="number"
-          value={txPower}
-          onChange={(e) => {
-            setTxPower(e.target.value)
-            if (txPowerError) validateTxPower(e.target.value)
-          }}
-          onBlur={(e) => validateTxPower(e.target.value)}
-          disabled={isRunning}
-          placeholder="Enter TX Power value"
-        />
-        {txPowerError && <span className="text-xs text-red-500">{txPowerError}</span>}
-      </div>
-
-      {/* Run Button */}
-      <div className="mt-auto pt-4">
-        <Button
-          className="w-full relative"
-          onClick={handleRun}
-          disabled={isRunning || !isFormValid}
-        >
-          <span className="relative inline-block">
-            {isRunning ? (
-              <Loader2Icon className="right-full top-1/2 -translate-y-1/2 -translate-x-2 absolute animate-spin" />
-            ) : null}
-            {isRunning ? 'Running...' : 'Run'}
-          </span>
-        </Button>
-      </div>
-
-      {/* Current Configuration Preview */}
-      {isFormValid && (
-        <div className="text-xs text-gray-5 border-t border-gray-7 pt-4">
-          <div className="font-medium mb-1">Configuration Preview:</div>
-          <div className="font-mono break-all">
-            {getConfigLabel({
-              band,
-              standard,
-              mode,
-              channel,
-              rate: mode !== 'single-carrier' ? rate : undefined,
-            })}
+      {x &&
+        Array.from({ length: 30 }, (_, i) => i).map((i) => (
+          <div className="h-7 bg-gray-7 border border-gray-4 rounded-lg px-3">{i + 1}</div>
+        ))}
+      {!x && (
+        <>
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-gray-4">Band</label>
+            <ButtonGroup options={[...BANDS]} value={band} onChange={setBand} disabled={isRunning} />
           </div>
-        </div>
+
+          {/* Standard Selection */}
+          <div className="flex flex-col gap-2 pt-4">
+            <label className="text-sm font-medium text-gray-4">Standard</label>
+            <ButtonGroup
+              options={availableStandards}
+              value={standard}
+              onChange={setStandard}
+              disabled={isRunning || availableStandards.length === 0}
+            />
+          </div>
+
+          {/* Mode Selection */}
+          <div className="flex flex-col gap-2 pt-4">
+            <label className="text-sm font-medium text-gray-4">Mode</label>
+            <ButtonGroup
+              options={[...MODES]}
+              value={mode}
+              onChange={(v) => setMode(v as 'tx' | 'rx' | 'single-carrier')}
+              disabled={isRunning}
+            />
+          </div>
+
+          {/* Channel Selection */}
+          <div className="flex flex-col gap-2 pt-4">
+            <label className="text-sm font-medium text-gray-4">Channel</label>
+            <ButtonGroup
+              options={availableChannels}
+              value={channel}
+              onChange={setChannel}
+              disabled={isRunning || availableChannels.length === 0}
+            />
+          </div>
+
+          {/* Rate Selection (hidden for single-carrier mode) */}
+          {showRateSelector && (
+            <div className="flex flex-col gap-2 pt-4">
+              <label className="text-sm font-medium text-gray-4">Rate</label>
+              <ButtonGroup
+                options={availableRates}
+                value={rate}
+                onChange={setRate}
+                disabled={isRunning || availableRates.length === 0}
+              />
+            </div>
+          )}
+
+          {/* TX Power Input */}
+          <div className="flex flex-col gap-1 pt-4">
+            <label className="text-sm font-medium text-gray-4">TX Power</label>
+            <Input
+              type="number"
+              value={txPower}
+              onChange={(e) => {
+                setTxPower(e.target.value)
+                if (txPowerError) validateTxPower(e.target.value)
+              }}
+              onBlur={(e) => validateTxPower(e.target.value)}
+              disabled={isRunning}
+              placeholder="Enter TX Power value"
+            />
+            {txPowerError && <span className="text-xs text-red-500">{txPowerError}</span>}
+          </div>
+
+          {/* Run Button */}
+          <div className="mt-auto pt-4">
+            <Button className="w-full relative" onClick={handleRun} disabled={isRunning || !isFormValid}>
+              <span className="relative inline-block">
+                {isRunning ? (
+                  <Loader2Icon className="right-full top-1/2 -translate-y-1/2 -translate-x-2 absolute animate-spin" />
+                ) : null}
+                {isRunning ? 'Running...' : 'Run'}
+              </span>
+            </Button>
+          </div>
+
+          {/* Current Configuration Preview */}
+          {isFormValid && (
+            <div className="text-xs text-gray-5 border-t border-gray-7 pt-4">
+              <div className="font-medium mb-1">Configuration Preview:</div>
+              <div className="font-mono break-all">
+                {getConfigLabel({
+                  band,
+                  standard,
+                  mode,
+                  channel,
+                  rate: mode !== 'single-carrier' ? rate : undefined,
+                })}
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   )
