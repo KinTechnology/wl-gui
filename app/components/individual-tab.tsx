@@ -13,6 +13,7 @@ import {
   getPossibleRates,
   buildCommands,
   getConfigLabel,
+  DEFAULTS,
 } from '@/lib/data/command-config'
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
@@ -69,6 +70,10 @@ function IndividualTab() {
   const [mode, setMode] = useState<'tx' | 'rx' | 'single-carrier'>('tx')
   const [txPower, setTxPower] = useState('15')
   const [txPowerError, setTxPowerError] = useState('')
+  const [beaconInterval, setBeaconInterval] = useState(DEFAULTS.beaconInterval)
+  const [dtimPeriod, setDtimPeriod] = useState(DEFAULTS.dtimPeriod)
+  const [shortRetryLimit, setShortRetryLimit] = useState(DEFAULTS.shortRetryLimit)
+  const [longRetryLimit, setLongRetryLimit] = useState(DEFAULTS.longRetryLimit)
 
   // Get available options based on current selections
   const availableStandards = getStandardOptions()
@@ -185,12 +190,7 @@ function IndividualTab() {
           {/* Standard Selection (root - first) */}
           <div className="flex flex-col gap-2">
             <label className="text-sm font-medium text-gray-4">Standard</label>
-            <ButtonGroup
-              options={availableStandards}
-              value={standard}
-              onChange={setStandard}
-              disabled={isRunning}
-            />
+            <ButtonGroup options={availableStandards} value={standard} onChange={setStandard} disabled={isRunning} />
           </div>
 
           {/* Band Selection (depends on standard) */}
@@ -240,21 +240,76 @@ function IndividualTab() {
           )}
 
           {/* TX Power Input (independent) */}
-          <div className="flex flex-col gap-1 pt-4">
-            <label className="text-sm font-medium text-gray-4">TX Power</label>
-            <Input
-              type="number"
-              value={txPower}
-              onChange={(e) => {
-                setTxPower(e.target.value)
-                if (txPowerError) validateTxPower(e.target.value)
-              }}
-              onBlur={(e) => validateTxPower(e.target.value)}
-              disabled={isRunning}
-              placeholder="Enter TX Power value"
-            />
+          <TextInput
+            label="TX Power"
+            defaultValue={txPower}
+            onChangeText={(text) => setTxPower(text)}
+            validate={(value) => validateTxPower(value)}
+            disabled={isRunning}
+            placeholder="Enter TX Power value"
+          >
             {txPowerError && <span className="text-xs text-red-500">{txPowerError}</span>}
-          </div>
+          </TextInput>
+
+          <TextInput
+            label="Beacon Interval (Max 65000)"
+            defaultValue={'' + beaconInterval}
+            onChangeText={(text) => setBeaconInterval(Number(text))}
+            validate={(value) => {
+              const asNum = Number(value)
+              if (isNaN(asNum)) return false
+              if (asNum < 0) return false
+              if (asNum > 65000) return false
+              return isNaN(Number(value))
+            }}
+            disabled={isRunning}
+            placeholder="Enter Beacon Interval value"
+          />
+
+          <TextInput
+            label="DTIM Period (TUs) (Max 255)"
+            defaultValue={'' + dtimPeriod}
+            onChangeText={(text) => setDtimPeriod(Number(text))}
+            validate={(value) => {
+              const asNum = Number(value)
+              if (isNaN(asNum)) return false
+              if (asNum < 0) return false
+              if (asNum > 255) return false
+              return isNaN(Number(value))
+            }}
+            disabled={isRunning}
+            placeholder="Enter DTIM Period value"
+          />
+
+          <TextInput
+            label="Short Retry Limit (Max 255)"
+            defaultValue={'' + shortRetryLimit}
+            onChangeText={(text) => setShortRetryLimit(Number(text))}
+            validate={(value) => {
+              const asNum = Number(value)
+              if (isNaN(asNum)) return false
+              if (asNum < 0) return false
+              if (asNum > 255) return false
+              return isNaN(Number(value))
+            }}
+            disabled={isRunning}
+            placeholder="Enter Short Retry Limit value"
+          />
+
+          <TextInput
+            label="Long Retry Limit (Max 255)"
+            defaultValue={'' + longRetryLimit}
+            onChangeText={(text) => setLongRetryLimit(Number(text))}
+            validate={(value) => {
+              const asNum = Number(value)
+              if (isNaN(asNum)) return false
+              if (asNum < 0) return false
+              if (asNum > 255) return false
+              return isNaN(Number(value))
+            }}
+            disabled={isRunning}
+            placeholder="Enter Long Retry Limit value"
+          />
 
           {/* Run Button */}
           <div className="mt-auto pt-4">
@@ -285,6 +340,37 @@ function IndividualTab() {
           )}
         </>
       )}
+    </div>
+  )
+}
+
+function TextInput({
+  label,
+  onChangeText,
+  children,
+  validate,
+  ...props
+}: {
+  label: string
+  defaultValue: string
+  onChangeText: (text: string) => void
+  children?: React.ReactNode
+  validate?: (value: string) => boolean
+} & React.ComponentProps<'input'>) {
+  return (
+    <div className="flex flex-col gap-1 pt-4">
+      <label className="text-sm font-medium text-gray-4">{label}</label>
+      <Input
+        type="number"
+        onChange={(e) => {
+          const value = e.target.value
+          if (validate?.(value) === undefined || validate(value) === true) {
+            onChangeText(value)
+          }
+        }}
+        {...props}
+      />
+      {children}
     </div>
   )
 }

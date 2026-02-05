@@ -9,6 +9,10 @@ type StandardConfig = {
   nmode: string
   vhtmode: string
   gmode?: string // only 802.11g has this
+  beaconInterval?: number
+  dtimPeriod?: number
+  shortRetryLimit?: number
+  longRetryLimit?: number
   bandwidth?: string // '20' | '40' | '80' - for chanspec suffix
   // Derived data
   bands: SelectOption[]
@@ -317,6 +321,13 @@ export function getModeOptions(): SelectOption[] {
   return [...MODES]
 }
 
+export const DEFAULTS = {
+  beaconInterval: 100,
+  dtimPeriod: 1,
+  shortRetryLimit: 7,
+  longRetryLimit: 4,
+}
+
 // Build commands based on selected parameters
 export function buildCommands(params: {
   band: string
@@ -393,13 +404,27 @@ export function getConfigLabel(params: {
   mode: 'tx' | 'rx' | 'single-carrier'
   channel: string
   rate?: string
+  beaconInterval?: number
+  dtimPeriod?: number
+  shortRetryLimit?: number
+  longRetryLimit?: number
 }): string {
-  const { band, standard, mode, channel, rate } = params
+  const {
+    band,
+    standard,
+    mode,
+    channel,
+    rate,
+    beaconInterval = DEFAULTS.beaconInterval,
+    dtimPeriod = DEFAULTS.dtimPeriod,
+    shortRetryLimit = DEFAULTS.shortRetryLimit,
+    longRetryLimit = DEFAULTS.longRetryLimit,
+  } = params
 
   if (mode === 'single-carrier') {
-    return `${band} ${standard}; Single-carrier Mode; Channel ${channel}`
+    return `${band} ${standard}; Single-carrier Mode; Channel ${channel}\n  Beacon Interval: ${beaconInterval} TUs\n  DTIM Period: ${dtimPeriod} TUs\n  Short Retry Limit: ${shortRetryLimit}\n  Long Retry Limit: ${longRetryLimit}`
   }
 
   const modeLabel = mode === 'tx' ? 'TX Mode' : 'RX Mode'
-  return `${band} ${standard} ${modeLabel}; Channel ${channel}; Rate: ${rate}`
+  return `${band} ${standard} ${modeLabel}; Channel ${channel}; Rate: ${rate}\n  Beacon Interval: ${beaconInterval} TUs\n  DTIM Period: ${dtimPeriod} TUs\n  Short Retry Limit: ${shortRetryLimit}\n  Long Retry Limit: ${longRetryLimit}`
 }
