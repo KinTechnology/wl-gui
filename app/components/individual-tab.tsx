@@ -133,6 +133,10 @@ function IndividualTab() {
       channel,
       rate: mode !== 'single-carrier' ? rate : undefined,
       txPower: txPowerNum,
+      beaconInterval,
+      dtimPeriod,
+      shortRetryLimit,
+      longRetryLimit,
     })
 
     const label = getConfigLabel({
@@ -141,6 +145,10 @@ function IndividualTab() {
       mode,
       channel,
       rate: mode !== 'single-carrier' ? rate : undefined,
+      beaconInterval,
+      dtimPeriod,
+      shortRetryLimit,
+      longRetryLimit,
     })
 
     try {
@@ -260,7 +268,7 @@ function IndividualTab() {
               if (isNaN(asNum)) return false
               if (asNum < 0) return false
               if (asNum > 65000) return false
-              return isNaN(Number(value))
+              return true
             }}
             disabled={isRunning}
             placeholder="Enter Beacon Interval value"
@@ -275,7 +283,7 @@ function IndividualTab() {
               if (isNaN(asNum)) return false
               if (asNum < 0) return false
               if (asNum > 255) return false
-              return isNaN(Number(value))
+              return true
             }}
             disabled={isRunning}
             placeholder="Enter DTIM Period value"
@@ -290,7 +298,7 @@ function IndividualTab() {
               if (isNaN(asNum)) return false
               if (asNum < 0) return false
               if (asNum > 255) return false
-              return isNaN(Number(value))
+              return true
             }}
             disabled={isRunning}
             placeholder="Enter Short Retry Limit value"
@@ -305,7 +313,7 @@ function IndividualTab() {
               if (isNaN(asNum)) return false
               if (asNum < 0) return false
               if (asNum > 255) return false
-              return isNaN(Number(value))
+              return true
             }}
             disabled={isRunning}
             placeholder="Enter Long Retry Limit value"
@@ -334,6 +342,10 @@ function IndividualTab() {
                   mode,
                   channel,
                   rate: mode !== 'single-carrier' ? rate : undefined,
+                  beaconInterval,
+                  dtimPeriod,
+                  shortRetryLimit,
+                  longRetryLimit,
                 })}
               </div>
             </div>

@@ -336,22 +336,60 @@ export function buildCommands(params: {
   channel: string
   rate?: string
   txPower: number
+  beaconInterval?: number
+  dtimPeriod?: number
+  shortRetryLimit?: number
+  longRetryLimit?: number
 }): string[] {
-  const { band, standard, mode, channel, rate, txPower } = params
+  const {
+    band,
+    standard,
+    mode,
+    channel,
+    rate,
+    txPower,
+    beaconInterval = DEFAULTS.beaconInterval,
+    dtimPeriod = DEFAULTS.dtimPeriod,
+    shortRetryLimit = DEFAULTS.shortRetryLimit,
+    longRetryLimit = DEFAULTS.longRetryLimit,
+  } = params
   const config = getStandardConfig(standard)!
 
   if (mode === 'single-carrier') {
     // Single-carrier mode has different command structure
     const bandCmd = band.startsWith('2.4') ? 'band b' : 'band a'
 
-    const commands = ['down', bandCmd, 'up', 'out', `fqacurcy ${channel}`]
+    const commands = [
+      'down',
+      `bi ${beaconInterval}`,
+      `dtim ${dtimPeriod}`,
+      `srl ${shortRetryLimit}`,
+      `lrl ${longRetryLimit}`,
+      bandCmd,
+      'up',
+      'out',
+      `fqacurcy ${channel}`,
+    ]
     return commands
   } else {
     // TX/RX mode commands
     const commands: string[] = []
 
     // Common before commands
-    commands.push(...['pkteng_stop tx', 'up', 'down', 'mpc 0', 'phy_watchdog 0', 'country DE'])
+    commands.push(
+      ...[
+        'pkteng_stop tx',
+        'up',
+        'down',
+        'mpc 0',
+        `bi ${beaconInterval}`,
+        `dtim ${dtimPeriod}`,
+        `srl ${shortRetryLimit}`,
+        `lrl ${longRetryLimit}`,
+        'phy_watchdog 0',
+        'country DE',
+      ]
+    )
 
     // For 802.11g, add these commands in specific order
     commands.push(
